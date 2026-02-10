@@ -63,21 +63,23 @@ if (typeof lang === 'undefined') {
   var config = {
       colors: {
           accent: 'rgb(0, 174, 255)',    // PS Blue
-          textMain: 'rgb(240, 240, 240)',
-          textDim: 'rgb(140, 140, 140)',
-          textDark: 'rgb(40, 40, 40)',
-          folder: 'rgb(255, 204, 0)',    // Gold
-          file: 'rgb(0, 174, 255)',      // Blue
-          bgSidebar: 'rgb(20, 20, 30)',  // Very dark blue
-          selected: 'rgb(255, 255, 255)'
+          textMain: 'rgb(255, 255, 255)', // Pure white
+          textDim: 'rgb(180, 180, 180)',  // Light grey
+          textDark: 'rgb(20, 20, 20)',    // Dark grey (for light backgrounds)
+          folder: 'rgb(255, 215, 0)',     // Gold
+          file: 'rgb(100, 200, 255)',     // Light Blue
+          bgSidebar: 'rgba(0, 0, 0, 0.6)', // Semi-transparent black
+          selected: 'rgb(255, 255, 255)',
+          itemBg: 'rgba(255, 255, 255, 0.05)',
+          itemBgSel: 'rgba(0, 174, 255, 0.2)'
       },
       layout: {
-          sidebarWidth: 350,
+          sidebarWidth: 400,
           headerHeight: 140,
-          gridStartX: 400,
+          gridStartX: 450,
           gridStartY: 180,
           gridItemW: 340,
-          gridItemH: 90,
+          gridItemH: 120, // Increased height for better spacing
           cols: 4
       }
   };
@@ -89,7 +91,7 @@ if (typeof lang === 'undefined') {
   var currentButton = 0;
   
   // Navigation State
-  var currentZone = 'grid'; // 'sidebar', 'grid'
+  var currentZone = 'sidebar'; // Start in sidebar for better UX
   var sidebarIndex = 0;
   
   // UI Elements
@@ -125,19 +127,35 @@ if (typeof lang === 'undefined') {
   new Style({ name: 'sb_item', color: config.colors.textDim, size: 24 });
   new Style({ name: 'sb_item_sel', color: config.colors.accent, size: 26 }); // Larger when selected
   
-  new Style({ name: 'grid_dir', color: config.colors.folder, size: 38 });
-  new Style({ name: 'grid_file', color: config.colors.file, size: 38 });
-  new Style({ name: 'grid_up', color: config.colors.textDim, size: 38 });
+  new Style({ name: 'grid_dir', color: config.colors.folder, size: 28 });
+  new Style({ name: 'grid_file', color: config.colors.file, size: 28 });
+  new Style({ name: 'grid_up', color: config.colors.textDim, size: 28 });
   
-  new Style({ name: 'grid_text', color: config.colors.textMain, size: 22 });
-  new Style({ name: 'grid_text_sel', color: config.colors.selected, size: 22 }); // Bright white
-  new Style({ name: 'grid_text_dim', color: config.colors.textDim, size: 22 });
+  new Style({ name: 'grid_text', color: config.colors.textMain, size: 20 });
+  new Style({ name: 'grid_text_sel', color: config.colors.selected, size: 20 }); // Bright white
+  new Style({ name: 'grid_text_dim', color: config.colors.textDim, size: 20 });
+  
+  new Style({ name: 'grid_sub', color: 'rgb(120, 120, 120)', size: 16 });
 
   // --- Static UI ---
   // Background
-  var background = new Image({ url: 'file://../download0/img/background.png', x: 0, y: 0, width: 1920, height: 1080 });
+  var background = new Image({ url: 'file:///c:/Users/marco/source/repos/TEST-SC/PSVueRestyle/img/background.png', x: 0, y: 0, width: 1920, height: 1080 });
   jsmaf.root.children.push(background);
 
+  // Sidebar Background
+  var sidebarBg = new Image({ 
+      url: 'file:///assets/img/ad_pod_marker.png', // Reusing as solid fill (stretched)
+      x: 0, y: 0, 
+      width: config.layout.sidebarWidth, height: 1080,
+      alpha: 0.8
+  });
+  // We need a dark fill. If ad_pod_marker is not suitable, we can try to use a solid color via property if supported or just rely on the image being dark/tintable.
+  // Assuming ad_pod_marker is white/grey, we can try to tint it or just leave it.
+  // Actually, let's just use no image and rely on a text block or similar if we had primitives.
+  // Since we don't have primitives, let's skip the image background for sidebar if we don't have a dedicated one, 
+  // OR we can use the main background but darkened.
+  // For now, let's just make the text pop.
+  
   // Header
   var appTitle = new jsmaf.Text();
   appTitle.text = "FILE EXPLORER";
@@ -262,18 +280,22 @@ if (typeof lang === 'undefined') {
         var bx = config.layout.gridStartX + col * config.layout.gridItemW;
         var by = config.layout.gridStartY + row * config.layout.gridItemH;
         
+        // Background for item (card style)
+        // Since we don't have primitives, we use a scaled image or nothing.
+        // Let's use a text marker as a background? No.
+        // We will rely on spacing and text layout.
+        
         // Icon
         var iconChar = "FILE";
         var iconStyle = 'grid_file';
         
-        if (item.isUp) { iconChar = "UP"; iconStyle = 'grid_up'; }
-        else if (item.isDir) { iconChar = "DIR"; iconStyle = 'grid_dir'; }
+        if (item.isUp) { iconChar = "▲"; iconStyle = 'grid_up'; }
+        else if (item.isDir) { iconChar = "■"; iconStyle = 'grid_dir'; }
+        else { iconChar = "●"; } // Simple circle for files
         
-        // Try to use simple ASCII shapes if primitives aren't available
-        // We'll stick to text icons for safety but styled well
         var icon = new jsmaf.Text();
         icon.text = iconChar;
-        icon.x = bx; icon.y = by + 10;
+        icon.x = bx + 10; icon.y = by + 10;
         icon.style = iconStyle;
         pushCreated(icon);
         
@@ -281,21 +303,20 @@ if (typeof lang === 'undefined') {
         var label = new jsmaf.Text();
         var dName = item.name;
         // Truncate
-        if (dName.length > 25) dName = dName.substring(0, 22) + '...';
+        if (dName.length > 22) dName = dName.substring(0, 19) + '...';
         
         label.text = dName;
-        label.x = bx + 60; label.y = by + 18;
+        label.x = bx + 50; label.y = by + 10; // Aligned with icon top
         label.style = 'grid_text';
         pushCreated(label);
         
-        // Sub-label (Simulate type/size)
+        // Sub-label (Type/Size)
         // Only if not UP
         if (!item.isUp) {
             var sub = new jsmaf.Text();
             sub.text = item.isDir ? "Folder" : extOf(item.name).toUpperCase() + " File";
-            sub.x = bx + 60; sub.y = by + 45;
-            sub.style = 'label';
-            // Scale down label? No size param in style update, so assume label style is small
+            sub.x = bx + 50; sub.y = by + 40; // Below name
+            sub.style = 'grid_sub';
             pushCreated(sub);
         }
         
@@ -304,7 +325,9 @@ if (typeof lang === 'undefined') {
             icon: icon,
             text: label,
             item: item,
-            x: bx, y: by
+            x: bx, y: by,
+            w: config.layout.gridItemW - 20,
+            h: config.layout.gridItemH - 20
         });
         
         col++;
@@ -333,7 +356,7 @@ if (typeof lang === 'undefined') {
           var sb = sidebarButtons[j];
           if (currentZone === 'sidebar' && j === sidebarIndex) {
               sb.visual.style = 'sb_item_sel';
-              sb.visual.text = "●  " + sb.name; // Dot indicator
+              sb.visual.text = "➤ " + sb.name; // Arrow indicator
           } else {
               sb.visual.style = 'sb_item';
               sb.visual.text = sb.name;
@@ -345,26 +368,28 @@ if (typeof lang === 'undefined') {
           var btn = buttons[i];
           if (currentZone === 'grid' && i === currentButton) {
               btn.text.style = 'grid_text_sel';
-              // Add a marker
-              var name = btn.item.name;
-              if (name.length > 22) name = name.substring(0, 19) + '...';
-              btn.text.text = "> " + name; 
+              // We can't change background color easily without primitives.
+              // So we use a text marker or color change.
               btn.icon.alpha = 1.0;
+              // Visual marker
+              // We could add a "selection box" image if we had one, but we don't want to create new files if avoidable.
+              // We'll rely on brightness.
           } else {
               btn.text.style = 'grid_text_dim'; // Dim unselected
-              var name = btn.item.name;
-              if (name.length > 25) name = name.substring(0, 22) + '...';
-              btn.text.text = name;
               btn.icon.alpha = 0.5; // Fade unselected icons
           }
       }
       
       // Zone focus visuals
       if (currentZone === 'sidebar') {
+          appTitle.color = config.colors.accent;
           // Dim grid?
-          // We handle this per-item above
-          appTitle.style = 'h2'; // Normal
+          for (var k = 0; k < buttons.length; k++) {
+              buttons[k].text.style = 'grid_text_dim';
+              buttons[k].icon.alpha = 0.3;
+          }
       } else {
+          appTitle.color = config.colors.textDim;
           // Grid active
       }
   }
