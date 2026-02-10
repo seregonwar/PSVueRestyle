@@ -59,56 +59,68 @@
   // ═══════════════════════════════════════════════════════════════════════════
 
   /**
-   * Theme definitions - Enterprise color schemes
+   * Theme definitions - Enterprise color schemes with enhanced visuals
    */
   var THEMES = {
     dark: {
       name: 'Dark Professional',
       primary: 'rgb(0, 174, 255)',        // PS Blue
+      primaryLight: 'rgb(100, 200, 255)',  // Lighter blue for hover
       secondary: 'rgb(138, 43, 226)',     // Purple accent
       success: 'rgb(46, 204, 113)',       // Green
       warning: 'rgb(241, 196, 15)',       // Yellow
       danger: 'rgb(231, 76, 60)',         // Red
       bg: 'rgb(13, 17, 23)',              // Deep dark
       bgCard: 'rgba(30, 35, 45, 0.85)',   // Card with transparency
+      bgCardHover: 'rgba(40, 50, 65, 0.95)', // Lighter on hover
       bgOverlay: 'rgba(0, 0, 0, 0.7)',    // Overlay
       text: 'rgb(240, 246, 252)',         // Light text
       textDim: 'rgb(139, 148, 158)',      // Dimmed text
       textMuted: 'rgb(88, 96, 105)',      // Muted text
       border: 'rgba(48, 54, 61, 0.8)',    // Border
-      glow: 'rgba(0, 174, 255, 0.3)'      // Glow effect
+      borderHover: 'rgba(0, 174, 255, 0.6)', // Glowing border
+      glow: 'rgba(0, 174, 255, 0.3)',     // Glow effect
+      glowIntense: 'rgba(0, 174, 255, 0.6)' // Intense glow for active
     },
     cyber: {
       name: 'Cyberpunk Neon',
       primary: 'rgb(0, 255, 255)',        // Cyan
+      primaryLight: 'rgb(100, 255, 255)', // Lighter cyan
       secondary: 'rgb(255, 0, 255)',      // Magenta
       success: 'rgb(0, 255, 127)',        // Neon green
       warning: 'rgb(255, 215, 0)',        // Gold
       danger: 'rgb(255, 20, 147)',        // Deep pink
       bg: 'rgb(10, 10, 25)',              // Almost black
       bgCard: 'rgba(20, 20, 40, 0.9)',    // Dark purple
+      bgCardHover: 'rgba(30, 30, 60, 0.95)', // Lighter on hover
       bgOverlay: 'rgba(0, 0, 0, 0.8)',
       text: 'rgb(0, 255, 255)',           // Cyan text
       textDim: 'rgb(138, 43, 226)',       // Purple
       textMuted: 'rgb(75, 0, 130)',       // Indigo
       border: 'rgba(0, 255, 255, 0.5)',
-      glow: 'rgba(255, 0, 255, 0.5)'
+      borderHover: 'rgba(255, 0, 255, 0.8)', // Magenta hover
+      glow: 'rgba(255, 0, 255, 0.5)',
+      glowIntense: 'rgba(0, 255, 255, 0.8)' // Intense cyan glow
     },
     retro: {
       name: 'Retro Wave',
       primary: 'rgb(255, 71, 87)',        // Retro pink
+      primaryLight: 'rgb(255, 120, 130)', // Lighter pink
       secondary: 'rgb(5, 195, 221)',      // Retro cyan
       success: 'rgb(250, 208, 44)',       // Retro yellow
       warning: 'rgb(255, 140, 66)',       // Retro orange
       danger: 'rgb(189, 44, 121)',        // Dark pink
       bg: 'rgb(32, 20, 46)',              // Deep purple
       bgCard: 'rgba(73, 50, 111, 0.85)',  // Purple card
+      bgCardHover: 'rgba(100, 70, 140, 0.95)', // Lighter on hover
       bgOverlay: 'rgba(32, 20, 46, 0.85)',
       text: 'rgb(255, 231, 235)',         // Light pink
       textDim: 'rgb(183, 148, 244)',      // Light purple
       textMuted: 'rgb(130, 102, 187)',    // Medium purple
       border: 'rgba(255, 71, 87, 0.6)',
-      glow: 'rgba(255, 71, 87, 0.4)'
+      borderHover: 'rgba(5, 195, 221, 0.8)', // Cyan hover
+      glow: 'rgba(255, 71, 87, 0.4)',
+      glowIntense: 'rgba(255, 71, 87, 0.7)' // Intense pink glow
     }
   };
 
@@ -943,18 +955,18 @@
       var theme = state.currentTheme;
 
       // Create all required styles
-      new Style({ name: 'logo', color: 'rgb(240, 246, 252)', size: 48 }); // Increased brightness (was theme.primary)
-      new Style({ name: 'title', color: theme.text, size: 36 });
-      new Style({ name: 'subtitle', color: theme.textDim, size: 22 });
-      new Style({ name: 'header', color: theme.textDim, size: 20 });
-      new Style({ name: 'menu_item', color: theme.textDim, size: 28 });
-      new Style({ name: 'menu_item_active', color: theme.primary, size: 32 });
+      new Style({ name: 'logo', color: theme.primary, size: 52 }); // Primary color for brand
+      new Style({ name: 'title', color: theme.text, size: 40 }); // Larger titles
+      new Style({ name: 'subtitle', color: theme.primary, size: 24 }); // Primary for emphasis
+      new Style({ name: 'header', color: theme.textDim, size: 22 }); // Slightly larger
+      new Style({ name: 'menu_item', color: theme.textDim, size: 26 });
+      new Style({ name: 'menu_item_active', color: theme.primary, size: 34 }); // Larger when active
       new Style({ name: 'footer', color: theme.textMuted, size: 18 });
-      new Style({ name: 'stat_label', color: 'rgb(200, 200, 200)', size: 18 }); // Brighter label
-      new Style({ name: 'stat_value', color: theme.success, size: 22 });
-      new Style({ name: 'toast_icon', color: theme.primary, size: 24 });
-      new Style({ name: 'toast_text', color: theme.text, size: 18 });
-      new Style({ name: 'quick_action', color: theme.secondary, size: 20 });
+      new Style({ name: 'stat_label', color: theme.primary, size: 20 }); // Primary for labels
+      new Style({ name: 'stat_value', color: theme.success, size: 24 }); // Larger values
+      new Style({ name: 'toast_icon', color: theme.primary, size: 28 }); // Larger icons
+      new Style({ name: 'toast_text', color: theme.text, size: 20 }); // Larger toast text
+      new Style({ name: 'quick_action', color: theme.secondary, size: 22 }); // More visible
     },
 
     /**
@@ -1147,16 +1159,17 @@
       var startX = 1100;
       var startY = 250;
 
-      // Dashboard title
+      // Dashboard title with enhanced styling
       var dashTitle = new jsmaf.Text();
       dashTitle.text = "━━━ SYSTEM DASHBOARD ━━━";
       dashTitle.x = startX;
       dashTitle.y = startY;
       dashTitle.style = 'subtitle';
+      dashTitle.color = theme.primary;
       dashTitle.alpha = 0;
       jsmaf.root.children.push(dashTitle);
 
-      Animator.animate(dashTitle, {alpha: 0}, {alpha: 1}, 1400);
+      Animator.animate(dashTitle, {alpha: 0, y: startY - 10}, {alpha: 1, y: startY}, 1400, null, 'easeOut');
 
       // Stats
       var stats = [
@@ -1175,6 +1188,7 @@
         label.x = startX + 20;
         label.y = yPos;
         label.style = 'stat_label';
+        label.color = theme.primary;
         label.alpha = 0;
         jsmaf.root.children.push(label);
 
@@ -1183,6 +1197,7 @@
         value.x = startX + 200;
         value.y = yPos - 3;
         value.style = 'stat_value';
+        value.color = theme.success;
         value.alpha = 0;
         jsmaf.root.children.push(value);
 
@@ -1203,10 +1218,11 @@
         recentTitle.x = startX + 20;
         recentTitle.y = startY + 320;
         recentTitle.style = 'stat_label';
+        recentTitle.color = theme.primary;
         recentTitle.alpha = 0;
         jsmaf.root.children.push(recentTitle);
 
-        Animator.animate(recentTitle, {alpha: 0}, {alpha: 1}, 1800);
+        Animator.animate(recentTitle, {alpha: 0, y: startY + 310}, {alpha: 1, y: startY + 320}, 1800, null, 'easeOut');
 
         for (var j = 0; j < Math.min(3, state.recentItems.length); j++) {
           var recent = state.recentItems[j];
@@ -1242,6 +1258,7 @@
       qaTitle.x = startX + 20;
       qaTitle.y = startY;
       qaTitle.style = 'subtitle';
+      qaTitle.color = theme.primary;
       qaTitle.alpha = 0;
       jsmaf.root.children.push(qaTitle);
 
@@ -1257,17 +1274,18 @@
         qa.x = startX + 30;
         qa.y = startY + 50 + i * 35;
         qa.style = 'quick_action';
+        qa.color = theme.secondary;
         qa.alpha = 0;
         jsmaf.root.children.push(qa);
 
         (function(txt, idx) {
           setTimeout(function() {
-            Animator.animate(txt, {alpha: 0}, {alpha: 0.9}, 500);
-          }, 2000 + idx * 100);
+            Animator.animate(txt, {alpha: 0, x: startX + 20}, {alpha: 1, x: startX + 30}, 600, null, 'easeOut');
+          }, 2000 + idx * 120);
         })(qa, i);
       }
 
-      Animator.animate(qaTitle, {alpha: 0}, {alpha: 1}, 2000);
+      Animator.animate(qaTitle, {alpha: 0, y: startY - 10}, {alpha: 1, y: startY}, 2000, null, 'easeOut');
     },
 
     /**
@@ -1381,24 +1399,26 @@
           // Selected item
           item.text.style = 'menu_item_active';
           
-          // Animate indicator
-          Animator.animate(item.indicator, {alpha: 0, scaleX: 0}, {alpha: 1, scaleX: 1}, 200, null, 'easeOut');
+          // Enhanced indicator animation
+          Animator.animate(item.indicator, {alpha: 0, width: 4}, {alpha: 1, width: 8}, 250, null, 'easeOut');
           
-          // Subtle glow
-          Animator.animate(item.glow, {alpha: 0}, {alpha: 0.15}, 300);
+          // Intense glow effect
+          Animator.animate(item.glow, {alpha: 0}, {alpha: 0.25}, 300, null, 'easeOut');
+          item.glow.color = state.currentTheme.glowIntense;
           
-          // Micro-scale pulse
-          Animator.animate(item.text, {scaleX: 1, scaleY: 1}, {scaleX: 1.05, scaleY: 1.05}, 150);
+          // Enhanced scale pulse
+          Animator.animate(item.text, {scaleX: 1, scaleY: 1}, {scaleX: 1.08, scaleY: 1.08}, 180, null, 'easeOut');
           
         } else {
           // Unselected item
           item.text.style = 'menu_item';
+          item.text.color = state.currentTheme.textDim;
           item.indicator.alpha = 0;
           item.glow.alpha = 0;
           
           if (i === prev) {
             // Animate out previous selection
-            Animator.animate(item.text, {scaleX: 1.05, scaleY: 1.05}, {scaleX: 1, scaleY: 1}, 150);
+            Animator.animate(item.text, {scaleX: 1.08, scaleY: 1.08}, {scaleX: 1, scaleY: 1}, 150, null, 'easeOut');
           }
         }
       }
@@ -1433,11 +1453,11 @@
 
       AudioSystem.playLoad();
       
-      // Visual feedback
+      // Enhanced visual feedback
       var originalX = item.text.x;
-      Animator.animate(item.text, {x: originalX}, {x: originalX + 15}, 100, function() {
-        Animator.animate(item.text, {x: originalX + 15}, {x: originalX}, 100);
-      });
+      Animator.animate(item.text, {x: originalX, scaleX: 1.08, scaleY: 1.08}, {x: originalX + 20, scaleX: 1.15, scaleY: 1.15}, 120, function() {
+        Animator.animate(item.text, {x: originalX + 20, scaleX: 1.15, scaleY: 1.15}, {x: originalX, scaleX: 1, scaleY: 1}, 150, null, 'easeOut');
+      }, 'easeOut');
 
       this.executeAction(item.action, item.label);
     },

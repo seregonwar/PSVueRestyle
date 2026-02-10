@@ -138,14 +138,14 @@
   }
 
   function createStyles() {
-    new Style({ name: 'settings_title', color: 'rgb(0, 174, 255)', size: 42 });
-    new Style({ name: 'settings_section', color: 'rgb(200, 200, 200)', size: 28 });
-    new Style({ name: 'settings_section_active', color: 'rgb(0, 174, 255)', size: 32 });
+    new Style({ name: 'settings_title', color: 'rgb(0, 174, 255)', size: 48 }); // Larger title
+    new Style({ name: 'settings_section', color: 'rgb(180, 180, 180)', size: 26 });
+    new Style({ name: 'settings_section_active', color: 'rgb(0, 174, 255)', size: 32 }); // Brighter active
     new Style({ name: 'settings_option', color: 'rgb(160, 160, 160)', size: 24 });
-    new Style({ name: 'settings_option_active', color: 'rgb(255, 255, 255)', size: 26 });
-    new Style({ name: 'settings_value', color: 'rgb(46, 204, 113)', size: 24 });
-    new Style({ name: 'settings_hint', color: 'rgb(120, 120, 120)', size: 18 });
-    new Style({ name: 'settings_preview', color: 'rgb(240, 240, 240)', size: 20 });
+    new Style({ name: 'settings_option_active', color: 'rgb(0, 174, 255)', size: 28 }); // Primary color when active
+    new Style({ name: 'settings_value', color: 'rgb(46, 204, 113)', size: 26 }); // Larger values
+    new Style({ name: 'settings_hint', color: 'rgb(140, 140, 140)', size: 18 }); // Brighter hints
+    new Style({ name: 'settings_preview', color: 'rgb(240, 240, 240)', size: 22 }); // Larger preview
   }
 
   function buildHeader() {

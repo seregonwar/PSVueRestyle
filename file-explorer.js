@@ -120,22 +120,22 @@ if (typeof lang === 'undefined') {
   // --- Styles Setup ---
   jsmaf.root.children.length = 0;
   
-  new Style({ name: 'h1', color: config.colors.textMain, size: 36 }); // Path
-  new Style({ name: 'h2', color: config.colors.accent, size: 28 });   // Titles
-  new Style({ name: 'label', color: config.colors.textDim, size: 20 }); // Metadata
+  new Style({ name: 'h1', color: config.colors.textMain, size: 40 }); // Path - larger
+  new Style({ name: 'h2', color: config.colors.accent, size: 32 });   // Titles - larger
+  new Style({ name: 'label', color: config.colors.textDim, size: 22 }); // Metadata - larger
   
   new Style({ name: 'sb_item', color: config.colors.textDim, size: 24 });
-  new Style({ name: 'sb_item_sel', color: config.colors.accent, size: 26 }); // Larger when selected
+  new Style({ name: 'sb_item_sel', color: config.colors.accent, size: 28 }); // Larger when selected
   
-  new Style({ name: 'grid_dir', color: config.colors.folder, size: 28 });
-  new Style({ name: 'grid_file', color: config.colors.file, size: 28 });
-  new Style({ name: 'grid_up', color: config.colors.textDim, size: 28 });
+  new Style({ name: 'grid_dir', color: config.colors.folder, size: 30 }); // Larger icons
+  new Style({ name: 'grid_file', color: config.colors.file, size: 30 });
+  new Style({ name: 'grid_up', color: config.colors.textDim, size: 30 });
   
-  new Style({ name: 'grid_text', color: config.colors.textMain, size: 20 });
-  new Style({ name: 'grid_text_sel', color: config.colors.selected, size: 20 }); // Bright white
-  new Style({ name: 'grid_text_dim', color: config.colors.textDim, size: 20 });
+  new Style({ name: 'grid_text', color: config.colors.textMain, size: 22 }); // Larger text
+  new Style({ name: 'grid_text_sel', color: config.colors.selected, size: 24 }); // Bright white - larger
+  new Style({ name: 'grid_text_dim', color: config.colors.textDim, size: 22 });
   
-  new Style({ name: 'grid_sub', color: 'rgb(120, 120, 120)', size: 16 });
+  new Style({ name: 'grid_sub', color: 'rgb(140, 140, 140)', size: 18 }); // Brighter subtitles
 
   // --- Static UI ---
   // Background
@@ -161,6 +161,7 @@ if (typeof lang === 'undefined') {
   appTitle.text = "FILE EXPLORER";
   appTitle.x = 50; appTitle.y = 50;
   appTitle.style = 'h2';
+  appTitle.color = config.colors.accent; // Ensure accent color
   jsmaf.root.children.push(appTitle);
 
   var pathLabel = new jsmaf.Text();
@@ -186,6 +187,7 @@ if (typeof lang === 'undefined') {
   sbTitle.text = "QUICK ACCESS";
   sbTitle.x = 50; sbTitle.y = 150;
   sbTitle.style = 'label';
+  sbTitle.color = config.colors.accent; // Accent color for visibility
   jsmaf.root.children.push(sbTitle);
 
   // Sidebar Items
